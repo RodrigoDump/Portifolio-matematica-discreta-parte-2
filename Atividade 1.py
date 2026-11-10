@@ -6,18 +6,9 @@
 # ======================================================================
 """
 ATIVIDADE 1 — Congruência Modular e Teorema Chinês do Resto
-
-Parte A: verifica se a ≡ b (mod n).
-Parte B: resolve sistemas de 3 ou 4 congruências pelo Teorema Chinês do Resto (TCR).
-
-
-Para executar:  python atividade1.py
 """
 
-
-# ----------------------------------------------------------------------
-# Funções auxiliares
-# ----------------------------------------------------------------------
+#Funções auxiliares
 
 def ler_inteiro(mensagem):
     """Pede um número inteiro ao usuário e repete a pergunta até a entrada ser válida."""
@@ -43,9 +34,7 @@ def titulo(texto):
     print("=" * 64)
 
 
-# ----------------------------------------------------------------------
-# Procedimentos matemáticos
-# ----------------------------------------------------------------------
+#Procedimentos matemáticos
 
 def mdc(a, b):
     """
@@ -157,9 +146,7 @@ def verificar_condicoes(modulos):
     return valido
 
 
-# ----------------------------------------------------------------------
 # Parte A — Verificação de congruência modular
-# ----------------------------------------------------------------------
 
 def parte_a():
     titulo("PARTE A — Verificação de congruência modular")
@@ -205,9 +192,7 @@ def parte_a():
         print(f"  Logo {a} e {b} NÃO são congruentes módulo {n}.")
 
 
-# ----------------------------------------------------------------------
 # Parte B — Teorema Chinês do Resto
-# ----------------------------------------------------------------------
 
 def parte_b():
     titulo("PARTE B — Teorema Chinês do Resto")
@@ -306,9 +291,9 @@ def parte_b():
         print("\nAtenção: x0 não satisfez todas as congruências (há erro no cálculo).")
 
 
-# ----------------------------------------------------------------------
-# Programa principal
-# ----------------------------------------------------------------------
+
+#menu
+
 
 def main():
     titulo("ATIVIDADE 1 — Congruência Modular e Teorema Chinês do Resto")
