@@ -1,8 +1,8 @@
 # ======================================================================
-# Nome:        [seu nome completo]
-# Matrícula:   [sua matrícula]
+# Nome:        [Rodrigo otavio]
+# Matrícula:   [2612130046]
 # Disciplina:  Matemática Discreta
-# Turno:       [seu turno]
+# Turno:       [matutino]
 # ======================================================================
 """
 ATIVIDADE 1 — Congruência Modular e Teorema Chinês do Resto
