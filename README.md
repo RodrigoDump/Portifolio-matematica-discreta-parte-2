@@ -1,1 +1,1 @@
-# CONTINUA-O-PORTF-LIO-DE-PROGRAMA-O-MATEM-TICA-PARTE-2
+Continuação portifolio matematica discreta.
