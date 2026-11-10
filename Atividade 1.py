@@ -1,9 +1,9 @@
-
-# Nome:        [Rodrigo Otavio]
-# Matrícula:   [2612130046]
+# ======================================================================
+# Nome:        [seu nome completo]
+# Matrícula:   [sua matrícula]
 # Disciplina:  Matemática Discreta
-# Turno:       [Matutino]
-
+# Turno:       [seu turno]
+# ======================================================================
 """
 ATIVIDADE 1 — Congruência Modular e Teorema Chinês do Resto
 
@@ -11,14 +11,13 @@ Parte A: verifica se a ≡ b (mod n).
 Parte B: resolve sistemas de 3 ou 4 congruências pelo Teorema Chinês do Resto (TCR).
 
 
-
-
+Para executar:  python atividade1.py
 """
 
 
-
+# ----------------------------------------------------------------------
 # Funções auxiliares
-
+# ----------------------------------------------------------------------
 
 def ler_inteiro(mensagem):
     """Pede um número inteiro ao usuário e repete a pergunta até a entrada ser válida."""
@@ -44,21 +43,29 @@ def titulo(texto):
     print("=" * 64)
 
 
-
+# ----------------------------------------------------------------------
 # Procedimentos matemáticos
-
+# ----------------------------------------------------------------------
 
 def mdc(a, b):
     """
     Máximo divisor comum pelo algoritmo de Euclides:
         mdc(a, b) = mdc(b, a mod b)
-    Repete até o resto ser 0; o último valor não nulo é o MDC.
+    Repete as divisões até o resto ser 0; o último resto não nulo é o MDC.
+
+    Retorna (g, passos):
+        g      -> o MDC
+        passos -> lista de textos, uma divisão por linha (para mostrar ao usuário)
     """
     a = abs(a)
     b = abs(b)
+    if a < b:                      # começa dividindo o maior pelo menor
+        a, b = b, a
+    passos = []
     while b != 0:
+        passos.append(f"{a} = {a // b}·{b} + {a % b}")
         a, b = b, a % b
-    return a
+    return a, passos
 
 
 def verificar_congruencia(a, b, n):
@@ -79,12 +86,7 @@ def inverso_modular(a, n):
     """
     Inverso multiplicativo de a módulo n (n > 0) pelo algoritmo de Euclides ESTENDIDO.
 
-    Ideia: a cada divisão do algoritmo de Euclides, todo resto r pode ser escrito como
-    r = s·n + t·a (identidade de Bézout). Como s·n ≡ 0 (mod n), basta acompanhar o
-    coeficiente t, que cumpre  r ≡ t·a (mod n).  Ele é atualizado com a mesma conta
-    dos restos:  t_novo = t_ant - q·t.
-    Quando o resto chega a 0, o último resto não nulo é o mdc(a, n). Se ele for 1,
-    o t correspondente é o inverso de a (reduzido módulo n).
+
 
     Retorna (y, passos):
         y      -> número entre 0 e n-1 tal que a·y ≡ 1 (mod n); None se mdc(a, n) != 1
@@ -117,38 +119,47 @@ def inverso_modular(a, n):
 
 def verificar_condicoes(modulos):
     """
-    Passo 2 do roteiro da Parte B: confere se os módulos são positivos e dois a dois coprimos.
-    Mostra cada verificação e devolve True (tudo certo) ou False (fora das condições).
+    Passo 2 do roteiro da Parte B: confere as condições do TCR.
+        Condição 1: todos os módulos positivos.
+        Condição 2: módulos dois a dois coprimos (mdc(n_i, n_j) = 1 para todo par i < j).
+    Mostra cada verificação, inclusive as divisões do algoritmo de Euclides de cada par,
+    e devolve True (tudo certo) ou False (fora das condições).
     """
     valido = True
 
-    # (a) todos os módulos positivos?
+    # Condição 1: módulos positivos
+    print("  Condição 1: todos os módulos devem ser positivos")
     for i in range(len(modulos)):
         if modulos[i] > 0:
-            print(f"  n{i + 1} = {modulos[i]}  ->  positivo, OK")
+            print(f"    n{i + 1} = {modulos[i]}  ->  positivo, OK")
         else:
-            print(f"  n{i + 1} = {modulos[i]}  ->  NÃO é positivo")
+            print(f"    n{i + 1} = {modulos[i]}  ->  NÃO é positivo")
             valido = False
 
     if not valido:
-        return False       # com módulo não positivo não faz sentido continuar
+        print("  Como a condição 1 falhou, a condição 2 nem precisa ser verificada.")
+        return False
 
-    # (b) dois a dois coprimos?  mdc(n_i, n_j) = 1 para todo par i < j
+    # Condição 2: dois a dois coprimos
+    print("  Condição 2: os módulos devem ser dois a dois coprimos (mdc = 1 para todo par)")
     for i in range(len(modulos)):
         for j in range(i + 1, len(modulos)):
-            d = mdc(modulos[i], modulos[j])
+            d, passos = mdc(modulos[i], modulos[j])
+            print(f"    n{i + 1} = {modulos[i]} e n{j + 1} = {modulos[j]}  (Euclides):")
+            for linha in passos:
+                print("        " + linha)
             if d == 1:
-                print(f"  mdc(n{i + 1}, n{j + 1}) = mdc({modulos[i]}, {modulos[j]}) = 1  ->  coprimos, OK")
+                print(f"        mdc({modulos[i]}, {modulos[j]}) = 1  ->  coprimos, OK")
             else:
-                print(f"  mdc(n{i + 1}, n{j + 1}) = mdc({modulos[i]}, {modulos[j]}) = {d}  ->  NÃO são coprimos")
+                print(f"        mdc({modulos[i]}, {modulos[j]}) = {d}  ->  NÃO são coprimos")
                 valido = False
 
     return valido
 
 
-
+# ----------------------------------------------------------------------
 # Parte A — Verificação de congruência modular
-
+# ----------------------------------------------------------------------
 
 def parte_a():
     titulo("PARTE A — Verificação de congruência modular")
@@ -161,14 +172,21 @@ def parte_a():
         print("  Erro: o módulo n precisa ser maior que 0.")
         n = ler_inteiro("Digite o módulo n (n > 0): ")
 
+    print("\nPasso 1 — Dados e verificação de n")
+    print(f"  a = {a}, b = {b}, n = {n}")
+    print(f"  Condição n > 0:  {n} > 0  ->  OK")
+
     # Passos 2, 3 e 4: diferença, divisão por n e teste do resto
     diferenca, quociente, resto, congruentes = verificar_congruencia(a, b, n)
 
-    print("\nCálculos")
+    print("\nPasso 2 — Diferença a - b")
     print(f"  a - b = {a} - {com_par(b)} = {diferenca}")
-    print(f"  Dividindo {diferenca} por {n}:  {diferenca} = {n} · {com_par(quociente)} + {resto}"
-          f"   (quociente {quociente}, resto {resto})")
-    print(f"  O resto é zero? {'SIM' if congruentes else 'NÃO'}")
+
+    print("\nPasso 3 — Divisão de (a - b) por n")
+    print(f"  {diferenca} = {n} · {com_par(quociente)} + {resto}   (quociente {quociente}, resto {resto})")
+
+    print("\nPasso 4 — O resto é zero?")
+    print(f"  resto = {resto}  ->  {'SIM' if congruentes else 'NÃO'}")
 
     # Conferência extra: dois números são congruentes quando têm o mesmo resto na divisão por n
     print("\nConferência pelos restos individuais")
@@ -177,7 +195,8 @@ def parte_a():
     print(f"  Restos {'iguais' if a % n == b % n else 'diferentes'}.")
 
     # Passo 5: conclusão
-    print("\nConclusão")
+    print("\nPasso 5 — Conclusão")
+    print("  Definição: a ≡ b (mod n) quando n divide (a - b), isto é, quando o resto da divisão é 0.")
     if congruentes:
         print(f"  Como {diferenca} é divisível por {n} (resto 0), {n} divide (a - b).")
         print(f"  Logo {a} ≡ {b} (mod {n}): {a} e {b} SÃO congruentes módulo {n}.")
@@ -206,27 +225,32 @@ def parte_b():
         restos.append(ler_inteiro(f"  a{i} (resto)  = "))
         modulos.append(ler_inteiro(f"  n{i} (módulo) = "))
 
-    print("\nSistema informado")
+    print(f"\nPasso 1 — Sistema informado ({k} congruências)")
     for i in range(k):
         print(f"  x ≡ {restos[i]} (mod {modulos[i]})")
 
     # Passo 2: módulos positivos e dois a dois coprimos?
-    print("\nPasso 2 — Verificação dos módulos")
+    print("\nPasso 2 — Verificação das condições do TCR")
     if not verificar_condicoes(modulos):
         print("\nResultado: o sistema está FORA DAS CONDIÇÕES PREVISTAS para esta atividade")
         print("(os módulos precisam ser positivos e dois a dois coprimos). Nada foi calculado.")
         return
     print("  Módulos válidos: todos positivos e dois a dois coprimos.")
+    print("  Aplicação do TCR: como as duas condições valem, o sistema tem solução,")
+    print("  e ela é única módulo N = n1 · n2 · ... · nk.")
 
-    # Passo 3: N = n_1 · n_2 · ... · n_k
-    N = 1
-    for n_i in modulos:
+    # Passo 3: N = n_1 · n_2 · ... · n_k (multiplicando um módulo por vez)
+    print("\nPasso 3 — Produto dos módulos: N = n1 · n2 · ... · nk")
+    N = modulos[0]
+    for n_i in modulos[1:]:
+        print(f"  {N} · {n_i} = {N * n_i}")
         N = N * n_i
-    print("\nPasso 3 — Produto dos módulos")
-    print(f"  N = {' · '.join(str(n_i) for n_i in modulos)} = {N}")
+    print(f"  N = {N}")
 
     # Passos 4 e 5: para cada equação, N_i = N / n_i e o inverso y_i de N_i módulo n_i
-    print("\nPassos 4 e 5 — Para cada equação: N_i = N / n_i e o inverso y_i de N_i módulo n_i")
+    print("\nPassos 4 e 5 — Para cada equação: N_i = N / n_i e y_i, o inverso de N_i módulo n_i")
+    print("  Euclides estendido: a cada divisão r_ant = q·r + r_novo, calcula-se t_novo = t_ant - q·t.")
+    print("  Se o mdc for 1, o t do último resto não nulo é o inverso (reduzido módulo n_i).")
     termos = []
     for i in range(k):
         a_i = restos[i]
@@ -239,8 +263,8 @@ def parte_b():
         termos.append(termo)
 
         print(f"\nEquação {i + 1}:  x ≡ {a_i} (mod {n_i})")
-        print(f"  N{i + 1} = N / n{i + 1} = {N} / {n_i} = {N_i}")
-        print(f"  Inverso de N{i + 1} = {N_i} módulo {n_i} (Euclides estendido):")
+        print(f"  Passo 4: N{i + 1} = N / n{i + 1} = {N} / {n_i} = {N_i}")
+        print(f"  Passo 5: achar y{i + 1} tal que {N_i} · y{i + 1} ≡ 1 (mod {n_i})")
         for linha in passos:
             print("      " + linha)
         confere = (produto % n_i == 1 % n_i)
@@ -248,14 +272,17 @@ def parte_b():
               f"{produto} mod {n_i} = {produto % n_i}  ->  {'OK' if confere else 'ERRO'}")
         print(f"  Termo {i + 1}: a{i + 1} · N{i + 1} · y{i + 1} = {com_par(a_i)} · {N_i} · {y_i} = {termo}")
 
-    # Passo 6: soma dos termos, reduzida módulo N
-    soma = 0
-    for termo in termos:
+    # Passo 6: soma dos termos (uma parcela por vez), reduzida módulo N
+    print("\nPasso 6 — Soma dos termos e redução módulo N")
+    print(f"  TCR: x0 = ({' + '.join(f'a{i + 1}·N{i + 1}·y{i + 1}' for i in range(k))}) mod N")
+    print(f"  S = {' + '.join(com_par(t) for t in termos)}")
+    soma = termos[0]
+    for termo in termos[1:]:
+        print(f"  {com_par(soma)} + {com_par(termo)} = {soma + termo}")
         soma = soma + termo
+    print(f"  S = {soma}")
     x0 = soma % N
     quociente = soma // N
-    print("\nPasso 6 — Soma dos termos e redução módulo N")
-    print(f"  S = {' + '.join(com_par(t) for t in termos)} = {soma}")
     print(f"  x0 = S mod N = {soma} mod {N} = {x0}   ({soma} = {N} · {com_par(quociente)} + {x0})")
 
     # Passo 7: solução geral e verificação de x0 em cada congruência
@@ -273,12 +300,15 @@ def parte_b():
 
     if todas_ok:
         print(f"\nConclusão: x0 = {x0} satisfaz as {k} congruências.")
-        print(f"O conjunto solução é formado por todos os inteiros x ≡ {x0} (mod {N}).")
+        print(f"Pelo TCR, a solução é única módulo N = {N}: o conjunto solução é formado por")
+        print(f"todos os inteiros x ≡ {x0} (mod {N}), isto é, x = {x0} + {N}·t, com t inteiro.")
     else:
         print("\nAtenção: x0 não satisfez todas as congruências (há erro no cálculo).")
 
 
-#menu
+# ----------------------------------------------------------------------
+# Programa principal
+# ----------------------------------------------------------------------
 
 def main():
     titulo("ATIVIDADE 1 — Congruência Modular e Teorema Chinês do Resto")
