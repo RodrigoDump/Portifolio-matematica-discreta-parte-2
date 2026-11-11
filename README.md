@@ -34,4 +34,3 @@ Os procedimentos matemáticos centrais estão implementados neste próprio arqui
 usadas funções prontas como math.gcd, pow(a, b, n) ou pow(a, -1, n), nem bibliotecas como
 sympy: apenas os operadores + - * // %.
 
-Para executar:  python atividade2.py
