@@ -1,7 +1,7 @@
 Continuação portifolio matematica discreta.
 
 
-ATIVIDADE 2 — Criptografia RSA simplificada
+— Criptografia RSA simplificada
 
 Parte A: primalidade de p e q, n = p·q, φ(n) = (p-1)(q-1) e expoente público e.
 Parte B: expoente privado d (inverso de e módulo φ(n)) e chaves pública e privada.
