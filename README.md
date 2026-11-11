@@ -1,6 +1,22 @@
 Continuação portifolio matematica discreta.
 
 
+
+— Congruência Modular e Teorema Chinês do Resto
+ 
+Parte A: verifica se a ≡ b (mod n).
+Parte B: resolve sistemas de 3 ou 4 congruências pelo Teorema Chinês do Resto (TCR).
+ 
+O programa imprime na tela os passos essenciais de cada resolução: valores usados,
+cálculos intermediários, verificação das condições, aplicação do teorema e conclusão.
+Nos procedimentos feitos por repetição (algoritmo de Euclides e Euclides estendido),
+cada divisão é mostrada.
+ 
+Os procedimentos matemáticos centrais (MDC, inverso modular e TCR) estão implementados
+neste próprio arquivo. Não são usadas funções prontas como math.gcd ou pow(a, -1, n),
+nem bibliotecas como sympy: apenas os operadores + - * // %.
+
+
 — Criptografia RSA simplificada
 
 Parte A: primalidade de p e q, n = p·q, φ(n) = (p-1)(q-1) e expoente público e.
